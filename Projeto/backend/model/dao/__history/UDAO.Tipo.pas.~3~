@@ -1,0 +1,12 @@
+unit UDAO.Tipo;
+
+interface
+
+type
+  TDAO = class(TDAOBase)
+
+  end;
+
+implementation
+
+end.

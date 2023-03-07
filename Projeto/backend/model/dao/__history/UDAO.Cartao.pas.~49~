@@ -1,0 +1,97 @@
+unit UDAO.Cartao;
+
+interface
+
+uses
+  System.JSON,
+  DataSet.Serialize,
+  UDAO.Base;
+
+type
+  TDAOCartao = class(TDAOBase)
+    private
+      function FindUser(const aID: Integer): TJSONObject;
+      function FindTipo(const aID: Integer): TJSONObject;
+    public
+      function ProcurarPorId(const aIdentificador: Integer): TJSONObject; override;
+      constructor Create;
+  end;
+
+implementation
+
+{ TDAOCarta }
+
+uses
+  FireDAC.Comp.Client,
+  System.SysUtils,
+  UUtil.Banco,
+  UDAO.Tipo,
+  UDAO.Usuario,
+  UDAO.Intf;
+
+constructor TDAOCartao.Create;
+begin
+  FTabela := 'cartao';
+end;
+
+function TDAOCartao.FindTipo(const aID: Integer): TJSONObject;
+var
+  xDAO: IDAO;
+begin
+  xDAO := TDAOTipo.Create;
+  try
+    Result := xDAO.ProcurarPorId(aId);
+  finally
+    xDAO := nil;
+  end;
+end;
+
+function TDAOCartao.FindUser(const aID: Integer): TJSONObject;
+var
+  xDAO: IDAO;
+begin
+  xDAO := TDAOUsuario.Create;
+  try
+    Result := xDAO.ProcurarPorId(aId);
+  finally
+    xDAO := nil;
+  end;
+end;
+
+function TDAOCartao.ProcurarPorId(const aIdentificador: Integer): TJSONObject;
+var
+  xJSONArray, xJSONArrayAux: TJSONArray;
+  xJSONObject: TJSONObject;
+  I: Integer;
+  xIdUser: Integer;
+  xIdMatch: Integer;
+begin
+  xJSONArray := inherited;
+
+  if xJSONArray.Count = 0 then
+    Exit(xJSONArray);
+
+  xJSONArrayAux := TJSONArray.Create;
+
+  for I := 0 to Pred(xJSONArray.Count) do
+  begin
+    xJSONObject := TJSONObject.ParseJSONValue(
+      TEncoding.ASCII.GetBytes(
+        xJSONArray[I].ToJSON), 0) as TJSONObject;
+
+    xIdUser := StrToInt(xJSONObject.GetValue('idUser').Value);
+    xJSONObject.AddPair('user', Self.FindUser(xIdUser));
+    xJSONObject.RemovePair('idUser');
+
+    xIdMatch := StrToInt(xJSONObject.GetValue('idMatch').Value);
+    xJSONObject.AddPair('match', Self.FindMatch(xIdMatch));
+    xJSONObject.RemovePair('idMatch');
+
+    xJSONArrayAux.AddElement(xJSONObject);
+  end;
+
+  FreeAndNil(xJSONArray);
+  Result := xJSONArrayAux;
+end;
+
+end.

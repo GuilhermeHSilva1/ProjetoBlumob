@@ -1,0 +1,64 @@
+unit UUtil.Banco;
+
+interface
+
+uses
+  FireDac.Comp.Client,
+  FireDAC.Phys.MySQL,
+  FireDac.DApt,
+  FireDAC.Stan.Def,
+  FireDAC.Stan.Async,
+  Data.DB,
+  DataSet.Serialize,
+  System.JSON,
+  System.SysUtils;
+
+type
+  TUtilBanco = class
+    private
+      class var FConexao: TFDConnection;
+
+      class procedure AbrirConexao;
+      class procedure FecharConexao;
+    public
+      class function ExecutarConsulta(const aSQL: String): TJSONArray;
+  end;
+
+implementation
+
+{ TUtilBanco }
+
+class procedure TUtilBanco.AbrirConexao;
+var
+  xDriver: TFDPhysMySQLDriverLink;
+begin
+  xDriver := TFDPhysMySQLDriverLink.Create(nil);
+  FConexao  := TFDConnection.Create(nil);
+
+  xDriver.VendorLib := ExtractFilePath(ParamStr(0)) + 'libmysql.dll';
+
+  FConexao.DriverName  := 'MySQL';
+  FConexao.LoginPrompt := False;
+  FConexao.Params.Add('Database=blumob');
+  FConexao.Params.Add('User_Name=root');
+  FConexao.Params.Add('Password=root');
+  FConexao.Params.Add('Server=localhost');
+  FConexao.Params.Add('DriverID=MySQL');
+  FConexao.Open;
+end;
+
+class function TUtilBanco.ExecutarConsulta(const aSQL: String): TJSONArray;
+begin
+
+end;
+
+class procedure TUtilBanco.FecharConexao;
+begin
+  if Assigned(FConexao) and (FConexao.Connected) then
+  begin
+    FConexao.Close;
+    FreeAndNil(FConexao);
+  end;
+end;
+
+end.

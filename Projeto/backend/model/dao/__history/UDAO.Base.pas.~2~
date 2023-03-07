@@ -1,0 +1,12 @@
+unit UDAO.Base;
+
+interface
+
+type
+  TDAOBase = class
+
+  end;
+
+implementation
+
+end.
