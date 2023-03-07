@@ -1,0 +1,19 @@
+unit TDAOCartao;
+
+interface
+
+uses
+  System.JSON,
+  DataSet.Serialize;
+
+type
+  TDAOCartao = class
+    private
+
+    public
+
+  end;
+
+implementation
+
+end.

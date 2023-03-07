@@ -1,0 +1,15 @@
+unit UDAO.Usuario;
+
+interface
+
+uses
+  UDAO.Base;
+
+type
+  TDAOUsuario = class(TDAOBase)
+
+  end;
+
+implementation
+
+end.

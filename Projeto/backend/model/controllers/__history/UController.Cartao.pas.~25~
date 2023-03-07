@@ -1,0 +1,54 @@
+unit UController.Cartao;
+
+interface
+
+uses
+  Horse,
+  GBSwagger.Path.Attributes,
+  UEntity.Cartao,
+  UController.Base;
+
+type
+  [SwagPath('users', 'Usuários')]
+  TControllerCartao = class(TControllerBase)
+    private
+    public
+
+      [SwagGET('{id}', 'Procurar um Cartao')]
+      [SwagParamPath('id', 'id do Cartao')]
+      [SwagResponse(200, TCartao, 'Informações do Cartao')]
+      [SwagResponse(404)]
+      class procedure Get(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+
+      [SwagPUT('Atualizar Cartão')]
+      [SwagParamBody('Informações do Cartão', TCartao)]
+      [SwagResponse(201)]
+      [SwagResponse(400)]
+      class procedure Put(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+  end;
+
+implementation
+
+uses
+  UDAO.Intf,
+  UDAO.Cartao,
+  System.JSON,
+  System.SysUtils;
+
+{ TControllerUser }
+
+class procedure TControllerCartao.Get(Req: THorseRequest; Res: THorseResponse;
+  Next: TProc);
+begin
+  FDAO := TDAOCartao.Create;
+  inherited;
+end;
+
+class procedure TControllerCartao.Put(Req: THorseRequest; Res: THorseResponse;
+  Next: TProc);
+begin
+  inherited;
+
+end;
+
+end.

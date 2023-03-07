@@ -1,0 +1,19 @@
+unit UDAO.Base;
+
+interface
+
+uses
+  UDAO.Intf,
+  System.JSON;
+
+type
+  TDAOBase = class(TInterfacedObject, IDAO)
+    private
+
+    public
+      function ProcurarPorID(const aIdentificador: Integer): TJSONObject;
+  end;
+
+implementation
+
+end.
