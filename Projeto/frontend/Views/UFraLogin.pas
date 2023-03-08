@@ -59,7 +59,7 @@ begin
     fraCatraca.Show();
   except
     On E: exception do
-      raise Exception.Create('Cartao não encontrado');
+      raise Exception.Create('Cartao não encontrado: ' + E.Message);
   end;
 end;
 

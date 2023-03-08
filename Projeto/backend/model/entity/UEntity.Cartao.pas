@@ -1,133 +1,102 @@
 unit UEntity.Cartao;
 
 interface
-
 uses
   System.JSON,
   UEntity.Usuario,
   UEntity.Tipo;
-
 type
   TCartao = class
     private
       FID: Integer;
-      FNumCartao: String;
+      FNumCartao: Integer;
       FSaldo: Double;
       FTipo: TTipo;
       FUsuario: TUsuario;
-      FJSON: TJSONObject;
-
-      function GetID: Integer;
-      function GetJSON: TJSONObject;
-      function GetNum: String;
-
-    procedure SetId(const Value: Integer);
-    procedure SetNum(const Value: String);
 
     function GetSaldo: Double;
-    function GetTipo: TTipo;
+    function GetPassagem: Double;
+    function GetNumCartao: Integer;
 
     procedure SetSaldo(const Value: Double);
-    procedure SetTipo(const Value: TTipo);
 
-    function GetUser: TUsuario;
-    procedure SetUser(const Value: TUsuario);
+    procedure CarregarTipo(aJSON: String);
+    function GetTipo: TTipo;
 
     public
-      constructor Create(const aID: Integer; aSaldo: Double; aNumCartao: String);
+      constructor Create(aJSON: String); overload;
       destructor Destroy;
 
-      [SwagProp('Cartao ID', True)]
-      property ID: Integer read GetID write SetId;
-
-      [SwagProp('Cartao Numero', True)]
-      property NumCartao: String read GetNum write SetNum;
 
       property Saldo: Double read GetSaldo write SetSaldo;
-
-      property Tipo: TTipo read GetTipo write SetTipo;
-
-      property Usuario: TUsuario read GetUser write SetUser;
-
-      property JSON: TJSONObject read GetJSON;
+      property Passagem: Double read GetPassagem;
+      property NumCartao: Integer read GetNumCartao;
+      property Tipo: TTipo read GetTipo;
   end;
 
 implementation
 
 uses
-  System.SysUtils;
-
+  System.SysUtils, FireDAC.comp.Client, DataSet.Serialize;
 { TCartao }
 
-constructor TCartao.Create(const aID: Integer; aSaldo: Double; aNumCartao: String);
+procedure TCartao.CarregarTipo(aJSON: String);
+var
+  xMemTable: TFDMemTable;
 begin
-  FID := aID;
-  FSaldo := aSaldo;
-  FNumCartao := aNumCartao;
-  FTipo := TTipo.Create;
-  FUsuario := TUsuario.Create;
+  xMemTable := TFDMemTable.Create(nil);
+  try
+    xMemTable.LoadFromJSON(aJSON);
+
+    FTipo := TTipo.Create(xMemTable.FieldByName('valorpassagem').AsFloat,
+                          xMemTable.FieldByName('tipo').AsString);
+  finally
+    FreeAndNil(xMemTable);
+  end;
 end;
 
+constructor TCartao.Create(aJSON: String);
+var
+  xMemTable: TFDMemTable;
+begin
+  xMemTable := TFDMemTable.Create(nil);
+  try
+    xMemTable.LoadFromJSON(aJSON);
+    FSaldo := xMemTable.FieldByName('saldo').AsFloat;
+    FNumCartao := xMemTable.FieldByName('numcartao').AsInteger;
+
+    Self.CarregarTipo(xMemTable.FieldByName('tipo').AsString);
+  finally
+    FreeAndNil(xMemTable);
+  end;
+end;
 destructor TCartao.Destroy;
 begin
-  FreeAndNil(FTipo);
   FreeAndNil(FUsuario);
-  FreeAndNil(FJSON);
+end;
+function TCartao.GetNumCartao: Integer;
+begin
+  Result := FNumCartao;
 end;
 
-function TCartao.GetID: Integer;
+function TCartao.GetPassagem: Double;
 begin
-
-end;
-
-function TCartao.GetJSON: TJSONObject;
-begin
-
-end;
-
-function TCartao.GetNum: String;
-begin
-
+  //Result := FValorPassagem;
 end;
 
 function TCartao.GetSaldo: Double;
 begin
-
+  Result := FSaldo;
 end;
 
 function TCartao.GetTipo: TTipo;
 begin
-
-end;
-
-function TCartao.GetUser: TUsuario;
-begin
-
-end;
-
-procedure TCartao.SetId(const Value: Integer);
-begin
-
-end;
-
-procedure TCartao.SetNum(const Value: String);
-begin
-
+  Result := FTipo;
 end;
 
 procedure TCartao.SetSaldo(const Value: Double);
 begin
-
-end;
-
-procedure TCartao.SetTipo(const Value: TTipo);
-begin
-
-end;
-
-procedure TCartao.SetUser(const Value: TUsuario);
-begin
-
+ FSaldo := Value;
 end;
 
 end.

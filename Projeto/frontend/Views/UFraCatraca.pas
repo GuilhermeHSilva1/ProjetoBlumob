@@ -50,7 +50,8 @@ end;
 
 procedure TfraCatraca.UsarCatraca;
 begin
-  FServico.UsarCatraca;
+    FServico.UsarCatraca;
+    lblSaldo.Text := 'Saldo Atual: R$:' + FormatFloat('0.00', FServico.Cartao.Saldo);
 end;
 
 end.

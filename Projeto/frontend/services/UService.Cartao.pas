@@ -88,6 +88,7 @@ procedure TServiceCartao.RegistrarLog(const aTexto: string);
 begin
   Append(FArquivoLog);
 
+
   WriteLn(FArquivoLog, aTexto);
 
   CloseFile(FArquivoLog);
@@ -100,7 +101,11 @@ end;
 
 procedure TServiceCartao.UsarCatraca;
 begin
-  FCartao.Saldo;
+  FCartao.Saldo := FCartao.Saldo - FCartao.Tipo.ValorPassagem;
+
+  FRESTClient.BaseURL := URL_BASE_CARTAO + '/' + FCartao.NumCartao.ToString + '/' + FormatFloat('#,##',FCartao.Saldo);
+  FRESTRequest.Method := rmPut;
+  FRESTRequest.Execute
 end;
 
 initialization

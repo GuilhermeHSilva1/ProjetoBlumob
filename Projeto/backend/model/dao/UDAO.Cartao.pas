@@ -82,12 +82,12 @@ begin
     Exit(xJSONObject);
 
   xIdUsuario := StrToInt(xJSONObject.GetValue('idusuario').Value);
-  xJSONObject.AddPair('Usuario', Self.FindUser(xIdUsuario));
-  xJSONObject.RemovePair('idUsuario');
+  xJSONObject.AddPair('usuario', Self.FindUser(xIdUsuario));
+  xJSONObject.RemovePair('idusuario');
 
   xIdTipo := StrToInt(xJSONObject.GetValue('idtipo').Value);
-  xJSONObject.AddPair('Tipo', Self.FindTipo(xIdTipo));
-  xJSONObject.RemovePair('idTipo');
+  xJSONObject.AddPair('tipo', Self.FindTipo(xIdTipo));
+  xJSONObject.RemovePair('idtipo');
 
   Result := xJSONObject;
 end;
