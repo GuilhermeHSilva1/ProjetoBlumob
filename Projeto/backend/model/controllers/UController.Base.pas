@@ -40,8 +40,16 @@ end;
 
 class procedure TControllerBase.Put(Req: THorseRequest; Res: THorseResponse;
   Next: TProc);
+var
+  xId: Integer;
+  xSaldo: Double;
 begin
+  xId := StrToIntDef(Req.Params.Items['id'], 0);
+  xSaldo := StrToFloatDef(Req.Params.Items['saldo'], 0);
 
+  FDAO.AtualizarTabela(xId, xSaldo);
+
+  Res.Status(THTTPStatus.OK);
 end;
 
 end.

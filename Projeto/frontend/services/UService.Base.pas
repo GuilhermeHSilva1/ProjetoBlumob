@@ -14,7 +14,7 @@ type
       FRESTRequest: TRESTRequest;
       FRESTResponse: TRESTResponse;
 
-      function ObterRegistro(const aId: String): TJSONObject; virtual; abstract;
+      procedure ObterRegistro(const aId: String); virtual; abstract;
 
       constructor Create; virtual;
     public

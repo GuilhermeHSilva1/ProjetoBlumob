@@ -2305,6 +2305,7 @@ object fraCatraca: TfraCatraca
           Stroke.Kind = None
           XRadius = 8.000000000000000000
           YRadius = 8.000000000000000000
+          OnClick = rectCatracaClick
           object Label1: TLabel
             Align = Client
             StyledSettings = [Family]

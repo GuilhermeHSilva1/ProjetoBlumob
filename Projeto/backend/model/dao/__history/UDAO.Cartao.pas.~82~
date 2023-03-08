@@ -1,0 +1,95 @@
+unit UDAO.Cartao;
+
+interface
+
+uses
+  System.JSON,
+  DataSet.Serialize,
+  UDAO.Base;
+
+type
+  TDAOCartao = class(TDAOBase)
+    private
+      function FindUser(const aID: Integer): TJSONObject;
+      function FindTipo(const aID: Integer): TJSONObject;
+    public
+      procedure AtualizarTabela(const aIdentificador: Integer; aValor: Double); override;
+      function ProcurarPorId(const aIdentificador: Integer): TJSONObject; override;
+      constructor Create;
+  end;
+
+implementation
+
+{ TDAOCarta }
+
+uses
+  FireDAC.Comp.Client,
+  System.SysUtils,
+  UUtil.Banco,
+  UDAO.Tipo,
+  UDAO.Usuario,
+  UDAO.Intf;
+
+procedure TDAOCartao.AtualizarTabela(const aIdentificador: Integer; aValor: Double);
+begin
+  try
+    TUtilBanco.AtualizarTabela(aIdentificador, aValor);
+  except
+    on E: Exception do
+      raise Exception.Create(E.Message);
+  end;
+end;
+
+constructor TDAOCartao.Create;
+begin
+  FTabela := 'cartao';
+  FCondicao := 'num_cartao';
+end;
+
+function TDAOCartao.FindTipo(const aID: Integer): TJSONObject;
+var
+  xDAO: IDAO;
+begin
+  xDAO := TDAOTipo.Create;
+  try
+    Result := xDAO.ProcurarPorId(aId);
+  finally
+    xDAO := nil;
+  end;
+end;
+
+function TDAOCartao.FindUser(const aID: Integer): TJSONObject;
+var
+  xDAO: IDAO;
+begin
+  xDAO := TDAOUsuario.Create;
+  try
+    Result := xDAO.ProcurarPorId(aId);
+  finally
+    xDAO := nil;
+  end;
+end;
+
+function TDAOCartao.ProcurarPorId(const aIdentificador: Integer): TJSONObject;
+var
+  xJSONObject: TJSONObject;
+  xIdUsuario: Integer;
+  xIdTipo: Integer;
+begin
+  xJSONObject := inherited;
+
+  if xJSONObject.Count = 0 then
+    Exit(xJSONObject);
+
+  xIdUsuario := StrToInt(xJSONObject.GetValue('idusuario').Value);
+  xJSONObject.AddPair('Usuario', Self.FindUser(xIdUsuario));
+  xJSONObject.RemovePair('idUsuario');
+
+  xIdTipo := StrToInt(xJSONObject.GetValue('idtipo').Value);
+  xJSONObject.AddPair('Tipo', Self.FindTipo(xIdTipo));
+  xJSONObject.RemovePair('idTipo');
+
+  Result := xJSONObject;
+end;
+
+end.

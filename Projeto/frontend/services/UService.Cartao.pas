@@ -22,7 +22,8 @@ type
     class function NewInstance: TObject; override;
     procedure RegistrarLog(const aTexto: string);
 
-    function ObterRegistro(const aId: String): TJSONObject; override;
+    procedure ObterRegistro(const aId: String); override;
+    procedure UsarCatraca;
 
     property Cartao: TCartao read GetCartao write SetCartao;
   end;
@@ -74,7 +75,7 @@ begin
   Result := TServiceCartao.Create;
 end;
 
-function TServiceCartao.ObterRegistro(const aId: String): TJSONObject;
+procedure TServiceCartao.ObterRegistro(const aId: String);
 begin
     FRESTClient.BaseURL := URL_BASE_CARTAO + '/' + aID;
     FRESTRequest.Method := rmGet;
@@ -95,6 +96,11 @@ end;
 procedure TServiceCartao.SetCartao(const Value: TCartao);
 begin
   FCartao := Value;
+end;
+
+procedure TServiceCartao.UsarCatraca;
+begin
+  FCartao.Saldo;
 end;
 
 initialization

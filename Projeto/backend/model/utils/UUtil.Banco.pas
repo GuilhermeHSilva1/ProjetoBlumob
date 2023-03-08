@@ -22,7 +22,7 @@ type
       class procedure FecharConexao;
     public
       class function ExecutarConsulta(const aSQL: String): TJSONArray;
-      class procedure AlterarTabela(const aSQL: String);
+      class procedure AtualizarTabela(const aSQL: String);
   end;
 
 implementation
@@ -48,9 +48,21 @@ begin
   FConexao.Open;
 end;
 
-class procedure TUtilBanco.AlterarTabela(const aSQL: String);
+class procedure TUtilBanco.AtualizarTabela(const aSQL: String);
+var
+  xQuery: TFDQuery;
 begin
+  xQuery := TFDQuery.Create(nil);
+  try
+    Self.AbrirConexao;
+    xQuery.Connection := FConexao;
+    xQuery.SQL.Text := StringReplace(aSQL, ',', '.', [rfReplaceAll]);
+    xQuery.ExecSQL;
 
+    Self.FecharConexao;
+  finally
+    FreeAndNil(xQuery);
+  end;
 end;
 
 class function TUtilBanco.ExecutarConsulta(const aSQL: String): TJSONArray;

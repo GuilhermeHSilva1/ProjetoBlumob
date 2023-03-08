@@ -13,6 +13,7 @@ type
       FCondicao: String;
     public
       function ProcurarPorID(const aIdentificador: Integer): TJSONObject; virtual;
+      procedure AtualizarTabela(const aIdentificador: Integer; aValor: Double); virtual; abstract;
   end;
 
 implementation

@@ -1,0 +1,71 @@
+unit UEntity.Cartao;
+
+interface
+
+uses
+  System.JSON,
+  UEntity.Usuario,
+  UEntity.Tipo;
+
+type
+  TCartao = class
+    private
+      FID: Integer;
+      FNumCartao: Integer;
+      FSaldo: Double;
+      FTipo: TTipo;
+      FUsuario: TUsuario;
+      FJSON: TJSONObject;
+
+    function GetSaldo: Double;
+
+    procedure CarregarTipo(aJsonTipo: String);
+
+    public
+      constructor Create(aJSON: String); overload;
+      destructor Destroy;
+
+      property Saldo: Double read GetSaldo;
+  end;
+
+implementation
+
+uses
+  System.SysUtils, FireDAC.comp.Client, DataSet.Serialize;
+
+{ TCartao }
+
+procedure TCartao.CarregarTipo(aJsonTipo: String);
+begin
+  FTipo := TTipo.Create(aJsonTipo);
+end;
+
+constructor TCartao.Create(aJSON: String);
+var
+  xMemTable: TFDMemTable;
+begin
+  xMemTable := TFDMemTable.Create(nil);
+  try
+    xMemTable.LoadFromJSON(aJSON);
+
+    FSaldo := xMemTable.FieldByName('saldo').AsFloat;
+    FNumCartao := xMemTable.FieldByName('numcartao').AsInteger;
+    Self.CarregarTipo(xMemTable.FieldByName('_Tipo').AsString);
+  finally
+    FreeAndNil(xMemTable);
+  end;
+end;
+
+destructor TCartao.Destroy;
+begin
+  FreeAndNil(FTipo);
+  FreeAndNil(FUsuario);
+  FreeAndNil(FJSON);
+end;
+
+function TCartao.GetSaldo: Double;
+begin
+  Result := FSaldo;
+end;
+
+end.

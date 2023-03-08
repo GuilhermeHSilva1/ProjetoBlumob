@@ -13,6 +13,7 @@ type
       function FindUser(const aID: Integer): TJSONObject;
       function FindTipo(const aID: Integer): TJSONObject;
     public
+      procedure AtualizarTabela(const aIdentificador: Integer; aValor: Double); override;
       function ProcurarPorId(const aIdentificador: Integer): TJSONObject; override;
       constructor Create;
   end;
@@ -29,10 +30,20 @@ uses
   UDAO.Usuario,
   UDAO.Intf;
 
+procedure TDAOCartao.AtualizarTabela(const aIdentificador: Integer; aValor: Double);
+begin
+  try
+    TUtilBanco.AtualizarTabela(Format('UPDATE %s SET saldo = %g Where %s = %d', [FTabela, aValor, FCondicao, aIdentificador]));
+  except
+    on E: Exception do
+      raise Exception.Create(E.Message);
+  end;
+end;
+
 constructor TDAOCartao.Create;
 begin
   FTabela := 'cartao';
-  FCondicao := 'num_cartao';
+  FCondicao := 'numCartao';
 end;
 
 function TDAOCartao.FindTipo(const aID: Integer): TJSONObject;

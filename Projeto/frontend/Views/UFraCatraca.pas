@@ -21,8 +21,11 @@ type
     Label1: TLabel;
     lblSaldo: TLabel;
     procedure FormShow(Sender: TObject);
+    procedure rectCatracaClick(Sender: TObject);
   private
     { Private declarations }
+    FServico: TServiceCartao;
+    procedure UsarCatraca;
   public
     { Public declarations }
   end;
@@ -35,11 +38,19 @@ implementation
 {$R *.fmx}
 
 procedure TfraCatraca.FormShow(Sender: TObject);
-var
-  xServico: TServiceCartao;
 begin
-  xServico := TServiceCartao.Create;
-  lblSaldo.Text := 'Saldo Atual: R$:' + FormatFloat('0.00', xServico.Cartao.Saldo);
+  FServico := TServiceCartao.Create;
+  lblSaldo.Text := 'Saldo Atual: R$:' + FormatFloat('0.00', FServico.Cartao.Saldo);
+end;
+
+procedure TfraCatraca.rectCatracaClick(Sender: TObject);
+begin
+  Self.UsarCatraca;
+end;
+
+procedure TfraCatraca.UsarCatraca;
+begin
+  FServico.UsarCatraca;
 end;
 
 end.

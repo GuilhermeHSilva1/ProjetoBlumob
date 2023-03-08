@@ -1,0 +1,17 @@
+unit UEntity.Tipo;
+
+interface
+
+type
+  TTipo = class
+    private
+      FID: Integer;
+      FValorPassagem: Double;
+
+    public
+
+  end;
+
+implementation
+
+end.

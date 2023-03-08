@@ -1,0 +1,24 @@
+unit UEntity.Tipo;
+
+interface
+
+type
+  TTipo = class
+    private
+      FID: Integer;
+      FValorPassagem: Double;
+
+    public
+      constructor Create(JSON: String);
+  end;
+
+implementation
+
+{ TTipo }
+
+constructor TTipo.Create(JSON: String);
+begin
+
+end;
+
+end.
