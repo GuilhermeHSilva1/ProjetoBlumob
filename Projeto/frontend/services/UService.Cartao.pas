@@ -25,6 +25,8 @@ type
     procedure ObterRegistro(const aId: String); override;
     procedure UsarCatraca;
 
+    destructor Destroy;
+
     property Cartao: TCartao read GetCartao write SetCartao;
   end;
 
@@ -53,6 +55,11 @@ begin
     Rewrite(FArquivoLog);
     CloseFile(FArquivoLog);
   end;
+end;
+
+destructor TServiceCartao.Destroy;
+begin
+  FreeAndNil(FCartao);
 end;
 
 function TServiceCartao.GetCartao: TCartao;

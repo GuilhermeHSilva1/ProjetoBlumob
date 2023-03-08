@@ -15,6 +15,9 @@ type
 
 implementation
 
+uses
+  System.SysUtils;
+
 { TTipo }
 
 constructor TTipo.Create(aValor: Double; aTipo: String);

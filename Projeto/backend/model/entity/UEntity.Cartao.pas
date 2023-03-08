@@ -90,6 +90,7 @@ end;
 destructor TCartao.Destroy;
 begin
   FreeAndNil(FUsuario);
+  FreeAndNil(FTipo);;
 end;
 function TCartao.GetNumCartao: Integer;
 begin

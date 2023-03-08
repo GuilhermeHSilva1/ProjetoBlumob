@@ -5,8 +5,8 @@ interface
 const
   URL_BASE_CARTAO = 'http://localhost:9000/v1/Cartao';
 
-  EMAIL = 'Guilhermehillesheim387@gmail.com'; // Crie um email para enviar emails
-  PASSWORD = 'vrwqyzzypcmhmowz'; //Senha que precisa gerar para aplicativos
+  EMAIL = 'email_example@'; // Crie um email para enviar emails
+  PASSWORD = ''; //Senha que precisa gerar para aplicativos
   PORTA = 587; //Porta padrão
   SMTP = 'smtp.gmail.com'; //"Email" Padrão do SMTP
   EMAIL_MENSAGEM = 'Cartão utilizado com sucesso!! Valor da Passagem: R$:%f Saldo Atual: R$:%f';
