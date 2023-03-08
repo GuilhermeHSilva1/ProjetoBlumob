@@ -34,7 +34,8 @@ var
 implementation
 
 uses
-  System.SysUtils, Vcl.Forms, UUtils.Constants, Rest.Types;
+  System.SysUtils, Vcl.Forms, UUtils.Constants, Rest.Types, System.Classes,
+  UUtils.EnviarEmail, FMX.Dialogs, System.Threading;
 
 { TLoggerSingleton }
 
@@ -102,6 +103,16 @@ end;
 procedure TServiceCartao.UsarCatraca;
 begin
   FCartao.Saldo := FCartao.Saldo - FCartao.Tipo.ValorPassagem;
+
+  TUtilEmail.EnviarEmail(FCartao.Usuario.Email,
+                         EMAIL_CATRACA_UTILIZADA,
+                         Format(EMAIL_MENSAGEM, [FCartao.Tipo.ValorPassagem, FCartao.Saldo]));
+
+  if FCartao.Saldo <= 40 then
+    TUtilEmail.EnviarEmail(FCartao.Usuario.Email,
+                           EMAIL_SALDOBAIXO,
+                           Format(EMAIL_MENSAGEM_SALDOBAIXO, [FCartao.Saldo]));
+
 
   FRESTClient.BaseURL := URL_BASE_CARTAO + '/' + FCartao.NumCartao.ToString + '/' + FormatFloat('#,##',FCartao.Saldo);
   FRESTRequest.Method := rmPut;

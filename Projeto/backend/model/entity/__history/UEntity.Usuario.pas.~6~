@@ -1,0 +1,23 @@
+unit UEntity.Usuario;
+
+interface
+
+type
+  TUsuario = class
+    private
+      FNome: String;
+      FEmail: String;
+    public
+      constructor Create(aNome, aEmail: String);
+  end;
+
+implementation
+
+{ TUsuario }
+
+constructor TUsuario.Create(aNome, aEmail: String);
+begin
+
+end;
+
+end.

@@ -5,6 +5,14 @@ interface
 const
   URL_BASE_CARTAO = 'http://localhost:9000/v1/Cartao';
 
+  EMAIL = 'Guilhermehillesheim387@gmail.com'; // Crie um email para enviar emails
+  PASSWORD = 'vrwqyzzypcmhmowz'; //Senha que precisa gerar para aplicativos
+  PORTA = 587; //Porta padrão
+  SMTP = 'smtp.gmail.com'; //"Email" Padrão do SMTP
+  EMAIL_MENSAGEM = 'Cartão utilizado com sucesso!! Valor da Passagem: R$:%f Saldo Atual: R$:%f';
+  EMAIL_MENSAGEM_SALDOBAIXO = 'Seu saldo está baixo!! Saldo atual: R$:%f';
+  EMAIL_CATRACA_UTILIZADA = 'Passagem da BluMob';
+  EMAIL_SALDOBAIXO = 'Saldo Baixo!!';
 implementation
 
 end.

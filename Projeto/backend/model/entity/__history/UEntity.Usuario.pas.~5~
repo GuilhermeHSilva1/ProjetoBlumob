@@ -1,0 +1,15 @@
+unit UEntity.Usuario;
+
+interface
+
+type
+  TUsuario = class
+    private
+      FNome: String;
+      FEmail: String;
+    public
+  end;
+
+implementation
+
+end.

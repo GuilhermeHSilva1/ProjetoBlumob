@@ -15,5 +15,7 @@
     <Transaction>2023/03/07 03:10:02.000.343,C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\Unit1.pas=C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\services\UService.Base.pas</Transaction>
     <Transaction>2023/03/07 14:10:17.000.215,=C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\Unit1.pas</Transaction>
     <Transaction>2023/03/07 14:10:58.000.941,C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\Unit1.pas=C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\utils\UUtils.Constants.pas</Transaction>
+    <Transaction>2023/03/08 03:34:21.000.688,=C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\Unit1.pas</Transaction>
+    <Transaction>2023/03/08 03:34:31.000.874,C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\Unit1.pas=C:\Users\Guilh\OneDrive\Documentos\ProjetoBlumob\Projeto\frontend\utils\UUtils.EnviarEmail.pas</Transaction>
   </Transactions>
 </BorlandProject>

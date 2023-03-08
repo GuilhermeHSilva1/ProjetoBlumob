@@ -10,7 +10,8 @@ uses
   UEntity.Usuario in '..\backend\model\entity\UEntity.Usuario.pas',
   UService.Cartao in 'services\UService.Cartao.pas',
   UService.Base in 'services\UService.Base.pas',
-  UUtils.Constants in 'utils\UUtils.Constants.pas';
+  UUtils.Constants in 'utils\UUtils.Constants.pas',
+  UUtils.EnviarEmail in 'utils\UUtils.EnviarEmail.pas';
 
 {$R *.res}
 

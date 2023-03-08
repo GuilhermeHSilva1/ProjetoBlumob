@@ -15,23 +15,24 @@ type
       FUsuario: TUsuario;
 
     function GetSaldo: Double;
-    function GetPassagem: Double;
     function GetNumCartao: Integer;
+    function GetTipo: TTipo;
 
     procedure SetSaldo(const Value: Double);
 
     procedure CarregarTipo(aJSON: String);
-    function GetTipo: TTipo;
+    procedure CarregarUsuario(aJSON: String);
+    function GetUsuario: TUsuario;
+
 
     public
       constructor Create(aJSON: String); overload;
       destructor Destroy;
 
-
       property Saldo: Double read GetSaldo write SetSaldo;
-      property Passagem: Double read GetPassagem;
       property NumCartao: Integer read GetNumCartao;
       property Tipo: TTipo read GetTipo;
+      property Usuario: TUsuario read GetUsuario;
   end;
 
 implementation
@@ -55,6 +56,21 @@ begin
   end;
 end;
 
+procedure TCartao.CarregarUsuario(aJSON: String);
+var
+  xMemTable: TFDMemTable;
+begin
+  xMemTable := TFDMemTable.Create(nil);
+  try
+    xMemTable.LoadFromJSON(aJSON);
+
+    FUsuario := TUsuario.Create(xMemTable.FieldByName('nome').AsString,
+                                xMemTable.FieldByName('email').AsString);
+  finally
+    FreeAndNil(xMemTable);
+  end;
+end;
+
 constructor TCartao.Create(aJSON: String);
 var
   xMemTable: TFDMemTable;
@@ -66,6 +82,7 @@ begin
     FNumCartao := xMemTable.FieldByName('numcartao').AsInteger;
 
     Self.CarregarTipo(xMemTable.FieldByName('tipo').AsString);
+    Self.CarregarUsuario(xMemTable.FieldByName('usuario').AsString);
   finally
     FreeAndNil(xMemTable);
   end;
@@ -79,11 +96,6 @@ begin
   Result := FNumCartao;
 end;
 
-function TCartao.GetPassagem: Double;
-begin
-  //Result := FValorPassagem;
-end;
-
 function TCartao.GetSaldo: Double;
 begin
   Result := FSaldo;
@@ -92,6 +104,11 @@ end;
 function TCartao.GetTipo: TTipo;
 begin
   Result := FTipo;
+end;
+
+function TCartao.GetUsuario: TUsuario;
+begin
+  Result := FUsuario;
 end;
 
 procedure TCartao.SetSaldo(const Value: Double);
