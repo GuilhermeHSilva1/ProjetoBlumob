@@ -1,0 +1,84 @@
+unit UService.Cartao;
+
+interface
+
+uses
+  UEntity.Cartao, UService.Base, System.JSON;
+
+type
+  TServiceCartao = class(TServiceBase)
+  private
+    FArquivoLog: TextFile;
+    FCartao: TCartao;
+    constructor Create;
+  public
+
+    class function ObterInstancia: TServiceCartao;
+    class function NewInstance: TObject; override;
+    procedure RegistrarLog(const aTexto: string);
+
+    function ObterRegistro(const aId: String): TJSONObject; override;
+  end;
+
+var
+  Instancia: TServiceCartao;
+
+implementation
+
+uses
+  System.SysUtils, Vcl.Forms;
+
+{ TLoggerSingleton }
+
+constructor TServiceCartao.Create;
+var
+  xDiretorioAplicacao: string;
+begin
+  Inherited;
+
+  xDiretorioAplicacao := ExtractFilePath(Application.ExeName);
+  AssignFile(FArquivoLog, xDiretorioAplicacao + 'Log.txt');
+
+  if not FileExists(xDiretorioAplicacao + 'Log.txt') then
+  begin
+    Rewrite(FArquivoLog);
+    CloseFile(FArquivoLog);
+  end;
+end;
+
+class function TServiceCartao.NewInstance: TObject;
+begin
+
+  if not Assigned(Instancia) then
+  begin
+    Instancia := TServiceCartao(inherited NewInstance);
+  end;
+
+  Result := Instancia;
+end;
+
+class function TServiceCartao.ObterInstancia: TServiceCartao;
+begin
+  Result := TServiceCartao.Create;
+end;
+
+function TServiceCartao.ObterRegistro(const aId: String): TJSONObject;
+begin
+
+end;
+
+procedure TServiceCartao.RegistrarLog(const aTexto: string);
+begin
+  Append(FArquivoLog);
+
+  WriteLn(FArquivoLog, aTexto);
+
+  CloseFile(FArquivoLog);
+end;
+
+initialization
+
+finalization
+  FreeAndNil(Instancia);
+
+end.

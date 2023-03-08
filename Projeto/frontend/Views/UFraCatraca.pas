@@ -5,22 +5,22 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.Layouts, FMX.StdCtrls, FMX.Controls.Presentation;
+  FMX.Layouts, FMX.StdCtrls, FMX.Controls.Presentation, UService.Cartao, UEntity.Cartao;
 
 type
-  TUfraSaldo = class(TForm)
+  TfraCatraca = class(TForm)
     lytPrincipal: TLayout;
     lytBluMopLogo: TLayout;
     imgBlumopLogo: TImage;
     RectPrincipal: TRectangle;
-    lblSaldo: TLabel;
-    btnCatraca: TButton;
     rectCatraca: TRectangle;
     lytBotoes: TLayout;
     lblOutroCartao: TLabel;
     lytLogoOnibus: TLayout;
     imgOnibus: TImage;
     Label1: TLabel;
+    lblSaldo: TLabel;
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,10 +28,18 @@ type
   end;
 
 var
-  UfraSaldo: TUfraSaldo;
+  fraCatraca: TfraCatraca;
 
 implementation
 
 {$R *.fmx}
+
+procedure TfraCatraca.FormShow(Sender: TObject);
+var
+  xServico: TServiceCartao;
+begin
+  xServico := TServiceCartao.Create;
+  lblSaldo.Text := 'Saldo Atual: R$:' + FormatFloat('0.00', xServico.Cartao.Saldo);
+end;
 
 end.

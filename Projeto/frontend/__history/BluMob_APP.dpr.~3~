@@ -1,0 +1,19 @@
+program BluMob_APP;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  UFraLogin in 'Views\UFraLogin.pas' {frmLogin},
+  UFraCatraca in 'Views\UFraCatraca.pas' {UfraSaldo},
+  UEntity.Cartao in '..\backend\model\entity\UEntity.Cartao.pas',
+  UEntity.Tipo in '..\backend\model\entity\UEntity.Tipo.pas',
+  UEntity.Usuario in '..\backend\model\entity\UEntity.Usuario.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TUfraSaldo, UfraSaldo);
+  Application.Run;
+end.
