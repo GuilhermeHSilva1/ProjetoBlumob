@@ -1,0 +1,24 @@
+unit UEntity.Tipo;
+
+interface
+
+type
+  TTipo = class
+    private
+      FTipo: String;
+      FValorPassagem : Double;
+    public
+      property ValorPassagem: Double read GetValorPassagem write setter;
+      Constructor Create(aValor: Double; aTipo: String);
+  end;
+
+implementation
+
+{ TTipo }
+
+constructor TTipo.Create(aValor: Double; aTipo: String);
+begin
+
+end;
+
+end.

@@ -44,7 +44,7 @@ procedure Registry;
 begin
   THorse.Group.Prefix('v1')
     .Get('/Cartao/:id', TControllerCartao.Get)
-    .Put('/Cartao', TControllerCartao.Put);
+    .Put('/Cartao/:id/:saldo', TControllerCartao.Put);
 end;
 
 begin

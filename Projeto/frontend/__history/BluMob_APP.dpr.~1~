@@ -1,0 +1,14 @@
+program BluMob_APP;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  UFraLogin in 'Views\UFraLogin.pas' {frmLogin};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.Run;
+end.

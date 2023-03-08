@@ -8,30 +8,64 @@ uses
   FMX.Layouts, FMX.StdCtrls, FMX.Controls.Presentation, FMX.Edit;
 
 type
-  TfrmLogin = class(TForm)
+  Tfralogin = class(TForm)
     lytPrincipal: TLayout;
     lytBluMopLogo: TLayout;
     imgBlumopLogo: TImage;
     RectPrincipal: TRectangle;
     lblSaldo: TLabel;
-    btnAutenticar: TButton;
     rectAutenticar: TRectangle;
     lytBotoes: TLayout;
     lytLogoOnibus: TLayout;
     imgOnibus: TImage;
     RectConsulta: TRectangle;
     EdtNumero: TEdit;
+    Label1: TLabel;
+    procedure rectAutenticarClick(Sender: TObject);
   private
     { Private declarations }
+    procedure Autenticar;
   public
     { Public declarations }
   end;
 
 var
-  frmLogin: TfrmLogin;
+  fralogin: Tfralogin;
 
 implementation
 
 {$R *.fmx}
+
+uses
+  UFraCatraca, UService.Cartao;
+
+procedure Tfralogin.Autenticar;
+var
+  xNumero: String;
+  xServico: TServiceCartao;
+begin
+    if EdtNumero.Text = EmptyStr then
+      raise Exception.Create('Informe o numero do cartão');
+
+    xNumero := EdtNumero.Text;
+  try
+      xServico := TServiceCartao.ObterInstancia;
+      xServico.RegistrarLog('Cartao criado');
+      xServico.ObterRegistro(xNumero);
+
+    if not Assigned(fraCatraca) then
+      fraCatraca := TfraCatraca.Create(application);
+
+    fraCatraca.Show();
+  except
+    On E: exception do
+      raise Exception.Create('Cartao não encontrado: ' + E.Message);
+  end;
+end;
+
+procedure Tfralogin.rectAutenticarClick(Sender: TObject);
+begin
+  Self.Autenticar;
+end;
 
 end.
