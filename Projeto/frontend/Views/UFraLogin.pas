@@ -57,6 +57,7 @@ begin
       fraCatraca := TfraCatraca.Create(application);
 
     fraCatraca.Show();
+    Application.MainForm := fraCatraca;
   except
     On E: exception do
       raise Exception.Create('Cartao não encontrado: ' + E.Message);
